@@ -62,7 +62,7 @@ jobs:
           -s compiler.version=${{ matrix.conan-compiler-version }}
           -s compiler.cppstd=${{ matrix.cppstd }}
           -s build_type=${{ matrix.build-type }}
-            --build=missing --build=!*
+          --build=missing --build=!*
 
       - name: CMake Configure
         run: |
