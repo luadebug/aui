@@ -62,6 +62,7 @@ jobs:
           -s compiler.version=${{ matrix.conan-compiler-version }}
           -s compiler.cppstd=${{ matrix.cppstd }}
           -s build_type=${{ matrix.build-type }}
+          --build=gtest/1.17.0 --build=libcurl/8.15.0
           --build=* --build=!*@
 
       - name: CMake Configure
