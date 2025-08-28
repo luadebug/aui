@@ -99,6 +99,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Installation
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl1-mesa-dev libglu1-mesa-dev
+
       - name: Clang Toolchain Installation
         run: |
           wget https://apt.llvm.org/llvm.sh
