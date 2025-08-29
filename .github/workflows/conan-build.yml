@@ -48,13 +48,15 @@ jobs:
         if: matrix.toolset == 142
         uses: microsoft/setup-msbuild@v2
         with:
-          vs-version: '[16.4,16.5)'
+          msbuild-architecture: x64
+          vs-version: '[16.11,16.12)'
 
       - name: Setup MSBuild (for v143)
         if: matrix.toolset == 143
         uses: microsoft/setup-msbuild@v2
         with:
-          vs-version: '[17.10,17.11)'
+          msbuild-architecture: x64
+          vs-version: '[17.13,17.15)'
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
