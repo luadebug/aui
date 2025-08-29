@@ -434,18 +434,17 @@ jobs:
             --settings compiler.cppstd=${{ matrix.cppstd }} \
             --build=missing
 
-      - name: CMake Configure (iOS)
+      - name: CMake Configure
         run: |
-          cmake -G "Xcode" \
-            -DCMAKE_SYSTEM_NAME=iOS \
-            -DCMAKE_OSX_SYSROOT=iphoneos \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=15.0 \
-            -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }} \
-            -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} \
-            -B build-ios \
-            -S .
+          cmake --list-presets
+          cmake --preset ${{ matrix.cmake-preset }}
 
-      - name: Build (iOS)
+      - name: Build
         run: |
-          cmake --build build-ios --config ${{ matrix.build-type }}
+          cmake --build --list-presets
+          cmake --build --preset ${{ matrix.cmake-preset }}
 
+      - name: Test
+        run: |
+          ctest --list-presets
+          ctest --preset ${{ matrix.cmake-preset }}
