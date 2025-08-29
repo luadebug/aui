@@ -120,7 +120,7 @@ jobs:
       - name: CMake Configure
         run: |
           cmake --list-presets
-          cmake --preset conan-default
+          cmake --preset ${{ matrix.cmake-preset }}
 
       - name: Build
         run: |
@@ -431,7 +431,6 @@ jobs:
           compiler.libcxx=libc++
           compiler.cppstd=${{ matrix.cppstd }}
           build_type=${{ matrix.build-type }}
-          
           [conf]
           tools.cmake.cmaketoolchain:generator=Ninja
           EOF
@@ -439,6 +438,7 @@ jobs:
       - name: Install dependencies (iOS)
         run: >
           conan install . \
+            -c tools.cmake.cmaketoolchain:generator=Ninja \
             --profile:build=default --profile:host=ios \
             --settings compiler.cppstd=${{ matrix.cppstd }} \
             --build=missing
