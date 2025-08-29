@@ -48,14 +48,16 @@ jobs:
         if: matrix.toolset == 142
         uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
-          toolset: 14.2
+          sdk: 10.0.19041.0
+          toolset: 14.28
           arch: amd64
 
       - name: Install MSVC v143 toolset
         if: matrix.toolset == 143
         uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
-          toolset: 14.3
+          sdk: 10.0.19041.0
+          toolset: 14.35
           arch: amd64
 
       - name: Install CMake
