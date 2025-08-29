@@ -90,10 +90,7 @@ class AUIRecipe(ConanFile):
         tc.cache_variables["AUIB_NO_PRECOMPILED"] = True
         tc.cache_variables["AUIB_DISABLE"] = True
         if self.settings.os == "iOS":
-            tc.cache_variables["AUI_BUILD_FOR"] = "ios"
             tc.cache_variables["AUI_IOS_CODE_SIGNING_REQUIRED"] = self.options.ios_sign
-        elif self.settings.os == "Android":
-            tc.cache_variables["AUI_BUILD_FOR"] = "android"
 
         tc.generate()
 

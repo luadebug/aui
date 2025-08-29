@@ -441,7 +441,6 @@ jobs:
             -DAUI_INSTALL_RUNTIME_DEPENDENCIES=0 \
             -DAUIB_NO_PRECOMPILED=1 \
             -DAUIB_DISABLE=1 \
-            -DAUI_BUILD_FOR=ios \
             -DAUI_IOS_CODE_SIGNING_REQUIRED=0 \
             -DCMAKE_SYSTEM_NAME=iOS \
             -DCMAKE_OSX_SYSROOT=iphoneos \
