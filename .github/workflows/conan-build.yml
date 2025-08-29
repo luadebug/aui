@@ -413,9 +413,7 @@ jobs:
       - name: Create Conan profile
         run: |
           mkdir -p ~/.conan2/profiles
-          cat > ~/.conan2/profiles/ios <<EOF
-          include(default)
-
+          cat > ~/.conan2/profiles/default <<EOF
           [settings]
           os=iOS
           os.version=15.0
@@ -431,7 +429,7 @@ jobs:
       - name: Install dependencies (iOS)
         run: >
           conan install . \
-            --profile=ios \
+            --profile=default \
             --settings compiler.cppstd=${{ matrix.cppstd }} \
             --build=missing
 
