@@ -44,6 +44,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Chocolatey
+        shell: powershell
+        run: |
+          Set-ExecutionPolicy Bypass -Scope Process -Force
+          [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+          Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+      - name: Verify choco
+        run: choco --version
+
+      - name: Install VS 2019 Build Tools
+        if: matrix.toolset == 142
+        run: choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.v142.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK.19041 --includeRecommended --passive --locale en-US" -y
+
       - name: Install MSVC v142 toolset
         if: matrix.toolset == 142
         uses: ilammy/msvc-dev-cmd@v1.13.0
@@ -51,6 +65,10 @@ jobs:
           sdk: 10.0.10240.0
           toolset: 14.28
           arch: amd64
+
+      - name: Install VS 2019 Build Tools
+        if: matrix.toolset == 143
+        run: choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.v143.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK.26100 --includeRecommended --passive --locale en-US" -y
 
       - name: Install MSVC v143 toolset
         if: matrix.toolset == 143
