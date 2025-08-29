@@ -74,7 +74,8 @@ class AUIRecipe(ConanFile):
         self.requires("libwebp/1.5.0")
         # Views
         self.requires("freetype/2.13.3")
-        self.requires("glew/2.2.0")
+        if str(self.settings.os) in {"Windows", "Linux", "Macos"}:
+            self.requires("glew/2.2.0")
 
     def validate(self):
         if self.settings.get_safe("compiler.cppstd"):
