@@ -127,7 +127,9 @@ jobs:
           echo "CXX=clang++-20" >> $GITHUB_ENV
 
       - name: Install Conan
-        uses: turtlebrowser/get-conan@main
+        run: |
+          apt-get update
+          apt-get install -y conan
 
       - name: Setup Conan
         run: |
@@ -204,7 +206,9 @@ jobs:
           echo "CXX=g++-15" >> $GITHUB_ENV
 
       - name: Install Conan
-        uses: turtlebrowser/get-conan@main
+        run: |
+          apt-get update
+          apt-get install -y conan
 
       - name: Setup Conan
         run: |
