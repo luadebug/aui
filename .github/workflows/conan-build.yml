@@ -267,7 +267,7 @@ jobs:
         arch: ['x86_64', 'armv8']
         include:
           - os: macos-14
-            appleclang-version: 13
+            appleclang-version: 15
           - build-type: Debug
             cmake-preset: conan-debug
           - build-type: Release
@@ -281,11 +281,11 @@ jobs:
       - name: Install CMake
         uses: lukka/get-cmake@latest
 
-      - name: Install Xcode 13.4.1
-        if: matrix.appleclang-version == 13
+      - name: Install Xcode 15.4.0
+        if: matrix.appleclang-version == 15
         uses: maxim-lobanov/setup-xcode@v1.6.0
         with:
-          xcode-version: '13.4.1'
+          xcode-version: '15.4.0'
 
       - name: Install system dependencies
         run: |
