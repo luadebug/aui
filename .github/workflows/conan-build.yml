@@ -67,12 +67,7 @@ jobs:
       - name: Use installed MSVC environment
         shell: powershell
         run: |
-          $vcvars = 'C:\BuildTools\VC\Auxiliary\Build\vcvarsall.bat'
-          if (-Not (Test-Path $vcvars)) {
-            Write-Error "vcvarsall.bat not found at $vcvars"
-            exit 1
-          }
-          cmd /c "`"$vcvars`" amd64 && conan --version && conan profile detect"
+          cmd /c "C:\BuildTools\Common7\Tools\VsDevCmd.bat -arch=amd64 && conan --version && conan profile detect"
 
       - name: Install dependencies
         run: >
