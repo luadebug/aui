@@ -62,8 +62,8 @@ jobs:
         if: matrix.toolset == 142
         uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
-          sdk: 10.0.10240.0
-          toolset: 14.28
+          sdk: 10.0.19041.0
+          toolset: 14.2
           arch: amd64
 
       - name: Install VS 2019 Build Tools
@@ -74,8 +74,8 @@ jobs:
         if: matrix.toolset == 143
         uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
-          sdk: 10.0.10240.0
-          toolset: 14.35
+          sdk: 10.0.26100.0
+          toolset: 14.3
           arch: amd64
 
       - name: Install CMake
