@@ -60,13 +60,11 @@ jobs:
 
       - name: Install MSVC v142 toolset
         if: matrix.toolset == 142
+        shell: pwsh
         run: |
-          set VCVARS_PATH=
-          for /r \"C:\\ProgramData\\chocolatey\\lib\\visualstudio2019buildtools\\tools\" %%F in (vcvarsall.bat) do (
-            set VCVARS_PATH=%%F
-          )
-          if not defined VCVARS_PATH exit /b 1
-          call \"%VCVARS_PATH%\" amd64
+          $vcvars = Get-ChildItem -Recurse 'C:\ProgramData\chocolatey\lib\visualstudio2019buildtools\tools' -Filter 'vcvarsall.bat' | Select-Object -First 1
+          if (-not $vcvars) { exit 1 }
+          & cmd /c "`"$($vcvars.FullName)`" amd64 && set" | Out-String
 
       - name: Install VS 2022 Build Tools
         if: matrix.toolset == 143
@@ -74,13 +72,11 @@ jobs:
 
       - name: Install MSVC v143 toolset
         if: matrix.toolset == 143
+        shell: pwsh
         run: |
-          set VCVARS_PATH=
-          for /r \"C:\\ProgramData\\chocolatey\\lib\\visualstudio2022buildtools\\tools\" %%F in (vcvarsall.bat) do (
-            set VCVARS_PATH=%%F
-          )
-          if not defined VCVARS_PATH exit /b 1
-          call \"%VCVARS_PATH%\" amd64
+          $vcvars = Get-ChildItem -Recurse 'C:\ProgramData\chocolatey\lib\visualstudio2022buildtools\tools' -Filter 'vcvarsall.bat' | Select-Object -First 1
+          if (-not $vcvars) { exit 1 }
+          & cmd /c "`"$($vcvars.FullName)`" amd64 && set" | Out-String
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
