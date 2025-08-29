@@ -225,7 +225,13 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install ninja
 
-      - name: Setup clang
+      - name: Setup clang for macOS
+        if: matrix.compiler == 'clang' && runner.os == 'macOS'
+        run: |
+          echo "CC=/usr/bin/clang " >> $GITHUB_ENV
+          echo "CXX=/usr/bin/clang++ " >> $GITHUB_ENV
+
+      - name: Clang Toolchain Installation for Linux
         if: matrix.compiler == 'clang'
         run: |
           wget https://apt.llvm.org/llvm.sh
