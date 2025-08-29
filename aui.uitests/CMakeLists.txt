@@ -7,6 +7,10 @@ endif()
 aui_module(aui.uitests EXPORT aui)
 aui_link(aui.uitests PRIVATE aui::core aui::views)
 
+if(AUIB_DISABLE)
+  find_package(GTest REQUIRED)
+endif()
+
 if (TARGET GTest::gtest)
   aui_link(aui.uitests PRIVATE GTest::gtest)
 endif()
