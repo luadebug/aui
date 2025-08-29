@@ -60,11 +60,13 @@ jobs:
 
       - name: Install MSVC v142 toolset
         if: matrix.toolset == 142
-        uses: ilammy/msvc-dev-cmd@v1.13.0
-        with:
-          sdk: 10.0.19041.0
-          vsversion: 2019
-          arch: amd64
+        run: |
+          set VCVARS_PATH=
+          for /r \"C:\\ProgramData\\chocolatey\\lib\\visualstudio2019buildtools\\tools\" %%F in (vcvarsall.bat) do (
+            set VCVARS_PATH=%%F
+          )
+          if not defined VCVARS_PATH exit /b 1
+          call \"%VCVARS_PATH%\" amd64
 
       - name: Install VS 2022 Build Tools
         if: matrix.toolset == 143
@@ -72,11 +74,13 @@ jobs:
 
       - name: Install MSVC v143 toolset
         if: matrix.toolset == 143
-        uses: ilammy/msvc-dev-cmd@v1.13.0
-        with:
-          sdk: 10.0.26100.0
-          vsversion: 2022
-          arch: amd64
+        run: |
+          set VCVARS_PATH=
+          for /r \"C:\\ProgramData\\chocolatey\\lib\\visualstudio2022buildtools\\tools\" %%F in (vcvarsall.bat) do (
+            set VCVARS_PATH=%%F
+          )
+          if not defined VCVARS_PATH exit /b 1
+          call \"%VCVARS_PATH%\" amd64
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
