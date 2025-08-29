@@ -40,7 +40,7 @@ jobs:
             cmake-preset: conan-release
 
     name: MSVC ${{ matrix.toolset }} - C++${{ matrix.cppstd }} - ${{ matrix.build-type }}
-    runs-on: windows-2025
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -83,11 +83,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-25.04]
+        os: [ubuntu-latest]
         cppstd: ['20']
         build-type: [Debug, Release]
         include:
-          - os: ubuntu-25.04
+          - os: ubuntu-latest
             clang-version: 20
           - build-type: Debug
             cmake-preset: conan-debug
@@ -163,11 +163,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-25.04]
+        os: [ubuntu-latest]
         cppstd: ['20']
         build-type: [Debug, Release]
         include:
-          - os: ubuntu-25.04
+          - os: ubuntu-latest
             gcc-version: 15
           - build-type: Debug
             cmake-preset: conan-debug
