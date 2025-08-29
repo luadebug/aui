@@ -100,6 +100,7 @@ jobs:
         run: >
           conan install .
           -c tools.microsoft.msbuild:vs_version=16
+          -c tools.microsoft:winsdk_version=10.0.19041.0
           -c tools.cmake.cmaketoolchain:generator=Ninja
           -s compiler.version=${{ matrix.conan-compiler-version }}
           -s compiler.cppstd=${{ matrix.cppstd }}
@@ -111,6 +112,7 @@ jobs:
         run: >
           conan install .
           -c tools.microsoft.msbuild:vs_version=17
+          -c tools.microsoft:winsdk_version=10.0.26100.0
           -c tools.cmake.cmaketoolchain:generator=Ninja
           -s compiler.version=${{ matrix.conan-compiler-version }}
           -s compiler.cppstd=${{ matrix.cppstd }}
@@ -458,3 +460,91 @@ jobs:
           ctest --list-presets
           ctest --preset ${{ matrix.cmake-preset }}
 
+
+  test-on-android-linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        cppstd: ['20']
+        build-type: [Debug, Release]
+        arch: ['armv7', 'armv8']
+        include:
+          - os: ubuntu-latest
+            ndk-version: 28b
+          - build-type: Debug
+            cmake-preset: conan-debug
+          - build-type: Release
+            cmake-preset: conan-release
+
+    name: NDK ${{ matrix.ndk-version }} - C++${{ matrix.cppstd }} - ${{ matrix.build-type }}
+    runs-on: ${{ matrix.os }}
+    container:
+      image: ubuntu:25.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          apt-get update
+          apt-get install -y ninja-build python3 python3-pip python3-wheel python3-setuptools wget lsb-release software-properties-common gnupg pipx cmake git unzip
+
+      - name: Download and extract Android NDK r28b
+        run: |
+          wget https://dl.google.com/android/repository/android-ndk-r28b-linux.zip
+          unzip -q android-ndk-r28b-linux.zip
+          echo "ANDROID_NDK_ROOT=$PWD/android-ndk-r28b" >> $GITHUB_ENV
+
+      - name: Install Conan
+        run: |
+          pipx ensurepath
+          pipx install conan
+
+      - name: Add pipx bin to PATH
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Setup Conan
+        run: |
+          conan --version
+          conan profile detect
+
+      - name: Create Conan Android profile
+        run: |
+          mkdir -p ~/.conan2/profiles
+          cat > ~/.conan2/profiles/android <<EOF
+          [settings]
+          os=Android
+          os.api_level=28
+          arch=${{ matrix.arch }}
+          compiler=clang
+          compiler.version=20
+          compiler.libcxx=libc++
+          compiler.cppstd=${{ matrix.cppstd }}
+          build_type=${{ matrix.build-type }}
+          [conf]
+          tools.android:ndk_path=$ANDROID_NDK_ROOT
+          tools.cmake.cmaketoolchain:generator=Ninja
+          EOF
+
+      - name: Install dependencies (Android)
+        run: >
+          conan install . \
+            -c tools.cmake.cmaketoolchain:generator=Ninja \
+            --profile:build=default --profile:host=android \
+            --settings compiler.cppstd=${{ matrix.cppstd }} \
+            --build=missing
+
+      - name: CMake Configure (Android)
+        run: |
+          cmake --list-presets
+          cmake --preset ${{ matrix.cmake-preset }}
+
+      - name: Build (Android)
+        run: |
+          cmake --build --list-presets
+          cmake --build --preset ${{ matrix.cmake-preset }}
+
+      - name: Test (Android)
+        run: |
+          ctest --list-presets
+          ctest --preset ${{ matrix.cmake-preset }}
