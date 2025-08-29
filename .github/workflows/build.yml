@@ -228,8 +228,11 @@ jobs:
       - name: Setup clang
         if: matrix.compiler == 'clang'
         run: |
-          echo "CC=/usr/bin/clang " >> $GITHUB_ENV
-          echo "CXX=/usr/bin/clang++ " >> $GITHUB_ENV
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20 all
+          echo "CC=clang-20" >> $GITHUB_ENV
+          echo "CXX=clang++-20" >> $GITHUB_ENV
 
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
