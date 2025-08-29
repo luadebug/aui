@@ -277,16 +277,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Conan
-        uses: turtlebrowser/get-conan@main
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install system dependencies
+        run: |
+          brew update
+          brew install git python3 conan
 
       - name: Setup Conan
         run: |
           conan --version
           conan profile detect
-
-      - name: Install CMake
-        uses: lukka/get-cmake@latest
 
       - name: Install dependencies
         run: >
