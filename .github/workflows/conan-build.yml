@@ -50,14 +50,14 @@ jobs:
         if: matrix.toolset == 142
         run: |
           Invoke-WebRequest -UseBasicParsing -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile C:\vs_buildtools.exe
-          Start-Process -Wait -FilePath "C:\vs_buildtools.exe" -ArgumentList "--passive","--wait","--norestart","--nocache","--installPath","C:\BuildTools","--add","Microsoft.VisualStudio.Component.VC.v142.x86.x64","--add","Microsoft.VisualStudio.Component.Windows10SDK.19041"
+          Start-Process -Wait -FilePath "C:\vs_buildtools.exe" -ArgumentList "--passive","--wait","--norestart","--nocache","--installPath","C:\BuildTools","--add","Microsoft.VisualStudio.Workload.VCTools","--add","Microsoft.VisualStudio.Component.VC.v142.x86.x64","--add","Microsoft.VisualStudio.Component.Windows10SDK.19041"
 
       - name: Install VS 2022 Build Tools
         shell: powershell
         if: matrix.toolset == 143
         run: |
           Invoke-WebRequest -UseBasicParsing -Uri https://aka.ms/vs/17/release/vs_buildtools.exe -OutFile C:\vs_buildtools.exe
-          Start-Process -Wait -FilePath "C:\vs_buildtools.exe" -ArgumentList "--passive","--wait","--norestart","--nocache","--installPath","C:\BuildTools","--add","Microsoft.VisualStudio.Component.VC.v143.x86.x64","--add","Microsoft.VisualStudio.Component.Windows10SDK.26100"
+          Start-Process -Wait -FilePath "C:\vs_buildtools.exe" -ArgumentList "--passive","--wait","--norestart","--nocache","--installPath","C:\BuildTools","--add","Microsoft.VisualStudio.Workload.VCTools","--add","Microsoft.VisualStudio.Component.VC.v143.x86.x64","--add","Microsoft.VisualStudio.Component.Windows10SDK.26100"
 
 
       - name: Install CMake
@@ -66,22 +66,27 @@ jobs:
       - name: Install Conan
         uses: turtlebrowser/get-conan@main
 
-      - name: Use installed MSVC environment
+      - name: Use installed MSVC environment (v142)
+        if: matrix.toolset == 142
         shell: powershell
         run: |
-          Write-Host "Listing C:\\BuildTools and C:\\ for diagnostics:"
-          Get-ChildItem C:\\BuildTools
-          Get-ChildItem C:\
-          if (Test-Path "C:\\BuildTools\\VC\\Auxiliary\\Build\\vcvarsall.bat") {
-            Write-Host "Found vcvarsall.bat, using it."
-            cmd /c '"C:\\BuildTools\\VC\\Auxiliary\\Build\\vcvarsall.bat" amd64 && conan --version && conan profile detect'
-          } elseif (Test-Path "C:\\BuildTools\\Common7\\Tools\\VsDevCmd.bat") {
-            Write-Host "vcvarsall.bat not found, trying VsDevCmd.bat."
-            cmd /c '"C:\\BuildTools\\Common7\\Tools\\VsDevCmd.bat" -arch=amd64 && conan --version && conan profile detect'
-          } else {
-            Write-Host "Neither vcvarsall.bat nor VsDevCmd.bat found!"
+          $vcvars = 'C:\BuildTools\VC\Auxiliary\Build\vcvarsall.bat'
+          if (-Not (Test-Path $vcvars)) {
+            Write-Host "vcvarsall.bat not found!"
             exit 1
           }
+          cmd /c "`"$vcvars`" amd64 -vcvars_ver=14.2 && conan --version && conan profile detect"
+
+      - name: Use installed MSVC environment (v143)
+        if: matrix.toolset == 143
+        shell: powershell
+        run: |
+          $vcvars = 'C:\BuildTools\VC\Auxiliary\Build\vcvarsall.bat'
+          if (-Not (Test-Path $vcvars)) {
+            Write-Host "vcvarsall.bat not found!"
+            exit 1
+          }
+          cmd /c "`"$vcvars`" amd64 -vcvars_ver=14.3 && conan --version && conan profile detect"
 
       - name: Install dependencies
         run: >
