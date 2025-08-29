@@ -126,6 +126,10 @@ jobs:
           ln -sf /usr/bin/clang-20 /usr/bin/clang
           ln -sf /usr/bin/clang++-20 /usr/bin/clang++
 
+      - name: Symlink llvm-strip
+        run: |
+          ln -sf /usr/bin/llvm-strip-20 /usr/bin/strip
+
       - name: Set Clang as default compiler
         run: |
           echo "CC=clang" >> $GITHUB_ENV
