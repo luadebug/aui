@@ -28,13 +28,13 @@ class AUIRecipe(ConanFile):
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
-        "ios-sign": [True, False]
+        "ios_sign": [True, False]
     }
     default_options = {
         "shared": False,
         "fPIC": True,
         "fmt/*:header_only": True,
-        "ios-sign": False,
+        "ios_sign": False,
     }
 
     implements = ["auto_shared_fpic"]
