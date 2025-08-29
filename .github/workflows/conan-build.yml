@@ -436,7 +436,6 @@ jobs:
 
       - name: CMake Configure (iOS)
         run: |
-          cmake --list-presets || true
           cmake -G "Xcode" \
             -DCMAKE_SYSTEM_NAME=iOS \
             -DCMAKE_OSX_SYSROOT=iphoneos \
@@ -449,4 +448,3 @@ jobs:
       - name: Build (iOS)
         run: |
           cmake --build build-ios --config ${{ matrix.build-type }}
-
