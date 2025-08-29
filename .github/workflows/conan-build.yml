@@ -44,19 +44,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup MSBuild (for v142)
-        if: matrix.toolset == 142
-        uses: microsoft/setup-msbuild@v2
-        with:
-          msbuild-architecture: x64
-          vs-version: '[16.11,16.12)'
+      - name: Install Chocolatey
+        shell: powershell
+        run: |
+          Set-ExecutionPolicy Bypass -Scope Process -Force
+          [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+          Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-      - name: Setup MSBuild (for v143)
+      - name: Verify choco
+        run: choco --version
+
+      - name: Install MSVC v142 toolset
+        if: matrix.toolset == 142
+        run:
+          choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.v142.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK.19041 --includeRecommended --passive --locale en-US"
+
+      - name: Install MSVC v143 toolset
         if: matrix.toolset == 143
-        uses: microsoft/setup-msbuild@v2
-        with:
-          msbuild-architecture: x64
-          vs-version: '[17.13,17.15)'
+        run:
+          choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.v143.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK.26100 --includeRecommended --passive --locale en-US"
+
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
