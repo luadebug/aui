@@ -94,11 +94,6 @@ jobs:
           conan --version
           conan profile detect
 
-      - name: Add Conan source mirror to global.conf
-        shell: bash
-        run: |
-          echo 'core.sources:download_urls=["origin", "https://c3i.jfrog.io/artifactory/conan-center-backup-sources"]' >> $(conan config home)/global.conf
-
       - name: Install dependencies
         if: matrix.toolset == 142
         run: >
@@ -203,10 +198,6 @@ jobs:
           conan --version
           conan profile detect
 
-      - name: Add Conan source mirror to global.conf
-        run: |
-          echo 'core.sources:download_urls=["origin", "https://c3i.jfrog.io/artifactory/conan-center-backup-sources"]' >> $(conan config home)/global.conf
-
       - name: Install dependencies
         run: >
           conan install . \
@@ -291,10 +282,6 @@ jobs:
           conan --version
           conan profile detect
 
-      - name: Add Conan source mirror to global.conf
-        run: |
-          echo 'core.sources:download_urls=["origin", "https://c3i.jfrog.io/artifactory/conan-center-backup-sources"]' >> $(conan config home)/global.conf
-
       - name: Install dependencies
         run: >
           conan install . \
@@ -358,10 +345,6 @@ jobs:
         run: |
           conan --version
           conan profile detect
-
-      - name: Add Conan source mirror to global.conf
-        run: |
-          echo 'core.sources:download_urls=["origin", "https://c3i.jfrog.io/artifactory/conan-center-backup-sources"]' >> $(conan config home)/global.conf
 
       - name: Install dependencies
         run: >
