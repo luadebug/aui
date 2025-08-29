@@ -40,7 +40,7 @@ jobs:
             cmake-preset: conan-release
 
     name: MSVC ${{ matrix.toolset }} - C++${{ matrix.cppstd }} - ${{ matrix.build-type }}
-    runs-on: windows-latest
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4
 
@@ -96,6 +96,8 @@ jobs:
 
     name: Clang ${{ matrix.clang-version }} - C++${{ matrix.cppstd }} - ${{ matrix.build-type }}
     runs-on: ${{ matrix.os }}
+    container:
+      image: ubuntu:25.04
     steps:
       - uses: actions/checkout@v4
 
@@ -176,6 +178,8 @@ jobs:
 
     name: GCC ${{ matrix.gcc-version }} - C++${{ matrix.cppstd }} - ${{ matrix.build-type }}
     runs-on: ${{ matrix.os }}
+    container:
+      image: ubuntu:25.04
     steps:
       - uses: actions/checkout@v4
 
