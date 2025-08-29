@@ -232,7 +232,7 @@ jobs:
           echo "CXX=/usr/bin/clang++ " >> $GITHUB_ENV
 
       - name: Clang Toolchain Installation for Linux
-        if: matrix.compiler == 'clang'
+        if: matrix.compiler == 'clang' && runner.os == 'Linux'
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
