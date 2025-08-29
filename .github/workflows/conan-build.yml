@@ -430,10 +430,10 @@ jobs:
         run: >
           conan install . \
             --profile=ios \
-            -s compiler=apple-clang \
-            -s compiler.version=${{ matrix.appleclang-version }} \
-            -s compiler.cppstd=${{ matrix.cppstd }} \
-            -s arch=${{ matrix.arch }} \
+            --settings compiler=apple-clang \
+            --settings compiler.version=${{ matrix.appleclang-version }} \
+            --settings compiler.cppstd=${{ matrix.cppstd }} \
+            --settings arch=${{ matrix.arch }} \
             --build=missing
 
       - name: CMake Configure (iOS)
