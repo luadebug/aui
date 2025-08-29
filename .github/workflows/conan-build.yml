@@ -518,7 +518,6 @@ jobs:
           arch=${{ matrix.arch }}
           compiler=clang
           compiler.version=20
-          compiler.libcxx=libc++
           compiler.cppstd=${{ matrix.cppstd }}
           build_type=${{ matrix.build-type }}
           [conf]
