@@ -261,12 +261,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-15]
+        os: [macos-14]
         cppstd: ['20']
         build-type: [Debug, Release]
         arch: ['x86_64', 'armv8']
         include:
-          - os: macos-15
+          - os: macos-14
             appleclang-version: 13
           - build-type: Debug
             cmake-preset: conan-debug
