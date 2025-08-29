@@ -63,7 +63,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
           sdk: 10.0.19041.0
-          toolset: 14.2
+          vsversion: 2019
           arch: amd64
 
       - name: Install VS 2022 Build Tools
@@ -75,7 +75,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
           sdk: 10.0.26100.0
-          toolset: 14.3
+          vsversion: 20222
           arch: amd64
 
       - name: Install CMake
