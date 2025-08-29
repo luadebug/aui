@@ -88,7 +88,7 @@ jobs:
       - name: Install dependencies
         run: >
           conan install .
-          -c tools.microsoft.msbuild:vs_version=17
+          -c tools.microsoft.msbuild:vs_version=16
           -s compiler.version=${{ matrix.conan-compiler-version }}
           -s compiler.cppstd=${{ matrix.cppstd }}
           -s build_type=${{ matrix.build-type }}
