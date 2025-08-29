@@ -72,7 +72,12 @@ jobs:
         shell: cmd
         run: |
           set VCVARS_PATH=
-          for /r "C:\BuildTools\tools" %%F in (vcvarsall.bat) do (
+          rem Try C:/BuildTools/tools first
+          for /r "C:/BuildTools/tools" %%F in (vcvarsall.bat) do (
+            set "VCVARS_PATH=%%F"
+          )
+          rem Fallback: try C:/BuildTools if not found
+          if not defined VCVARS_PATH for /r "C:/BuildTools" %%F in (vcvarsall.bat) do (
             set "VCVARS_PATH=%%F"
           )
           if not defined VCVARS_PATH exit /b 1
