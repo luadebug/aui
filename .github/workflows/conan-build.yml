@@ -69,7 +69,12 @@ jobs:
       - name: Use installed vcvarsall.bat
         shell: powershell
         run: |
-          cmd /c '"C:\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64 && conan --version && conan profile detect'
+          if (-Not (Test-Path "C:\\BuildTools\\VC\\Auxiliary\\Build\\vcvarsall.bat")) {
+            Write-Host "vcvarsall.bat not found! Listing directory:"
+            Get-ChildItem -Recurse C:\\BuildTools | Write-Host
+            exit 1
+          }
+          cmd /c '"C:\\BuildTools\\VC\\Auxiliary\\Build\\vcvarsall.bat" amd64 && conan --version && conan profile detect'
 
       - name: Install dependencies
         run: >
