@@ -72,11 +72,11 @@ jobs:
         shell: cmd
         run: |
           set VCVARS_PATH=
-          for /r \"C:\\BuildTools\\tools\" %%F in (vcvarsall.bat) do (
-            set VCVARS_PATH=%%F
+          for /r "C:\BuildTools\tools" %%F in (vcvarsall.bat) do (
+            set "VCVARS_PATH=%%F"
           )
           if not defined VCVARS_PATH exit /b 1
-          call \"%VCVARS_PATH%\" amd64
+          call "%VCVARS_PATH%" amd64
           conan --version
           conan profile detect
 
