@@ -130,7 +130,7 @@ jobs:
         run: |
           pipx ensurepath
           pipx install conan
-          export PATH=$PATH:/github/home/.local/bin
+          export PATH=$PATH:~/.local/bin
 
       - name: Setup Conan
         run: |
@@ -210,7 +210,7 @@ jobs:
         run: |
           pipx ensurepath
           pipx install conan
-          export PATH=$PATH:/github/home/.local/bin
+          export PATH=$PATH:~/.local/bin
 
       - name: Setup Conan
         run: |
