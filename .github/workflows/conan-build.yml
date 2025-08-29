@@ -66,15 +66,22 @@ jobs:
       - name: Install Conan
         uses: turtlebrowser/get-conan@main
 
-      - name: Use installed vcvarsall.bat
+      - name: Use installed MSVC environment
         shell: powershell
         run: |
-          if (-Not (Test-Path "C:\\BuildTools\\VC\\Auxiliary\\Build\\vcvarsall.bat")) {
-            Write-Host "vcvarsall.bat not found! Listing directory:"
-            Get-ChildItem -Recurse C:\\BuildTools | Write-Host
+          Write-Host "Listing C:\\BuildTools and C:\\ for diagnostics:"
+          Get-ChildItem C:\\BuildTools
+          Get-ChildItem C:\
+          if (Test-Path "C:\\BuildTools\\VC\\Auxiliary\\Build\\vcvarsall.bat") {
+            Write-Host "Found vcvarsall.bat, using it."
+            cmd /c '"C:\\BuildTools\\VC\\Auxiliary\\Build\\vcvarsall.bat" amd64 && conan --version && conan profile detect'
+          } elseif (Test-Path "C:\\BuildTools\\Common7\\Tools\\VsDevCmd.bat") {
+            Write-Host "vcvarsall.bat not found, trying VsDevCmd.bat."
+            cmd /c '"C:\\BuildTools\\Common7\\Tools\\VsDevCmd.bat" -arch=amd64 && conan --version && conan profile detect'
+          } else {
+            Write-Host "Neither vcvarsall.bat nor VsDevCmd.bat found!"
             exit 1
           }
-          cmd /c '"C:\\BuildTools\\VC\\Auxiliary\\Build\\vcvarsall.bat" amd64 && conan --version && conan profile detect'
 
       - name: Install dependencies
         run: >
