@@ -110,7 +110,7 @@ jobs:
         if: matrix.toolset == 143
         run: >
           conan install .
-          -c tools.microsoft.msbuild:vs_version=16
+          -c tools.microsoft.msbuild:vs_version=17
           -c tools.cmake.cmaketoolchain:generator=Ninja
           -s compiler.version=${{ matrix.conan-compiler-version }}
           -s compiler.cppstd=${{ matrix.cppstd }}
