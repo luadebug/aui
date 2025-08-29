@@ -95,6 +95,7 @@ jobs:
           conan profile detect
 
       - name: Add Conan source mirror to global.conf
+        shell: bash
         run: |
           echo 'core.sources:download_urls=["origin", "https://c3i.jfrog.io/artifactory/conan-center-backup-sources"]' >> $(conan config home)/global.conf
 
