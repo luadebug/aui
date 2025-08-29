@@ -120,14 +120,16 @@ jobs:
           apt-get update
           apt-get install -y clang-20
 
-      - name: Set Clang as default compiler
-        run: |
-          echo "CC=clang-20" >> $GITHUB_ENV
-          echo "CXX=clang++-20" >> $GITHUB_ENV
       - name: Symlink clang and clang++
         run: |
           ln -sf /usr/bin/clang-20 /usr/bin/clang
           ln -sf /usr/bin/clang++-20 /usr/bin/clang++
+
+      - name: Set Clang as default compiler
+        run: |
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
+
       - name: Install Conan
         run: |
           pipx ensurepath
