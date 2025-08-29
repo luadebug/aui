@@ -370,3 +370,71 @@ jobs:
         run: |
           ctest --list-presets
           ctest --preset ${{ matrix.cmake-preset }}
+
+  test-on-appleclang-ios:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14]
+        cppstd: ['20']
+        build-type: [Debug, Release]
+        arch: ['x86_64', 'armv8']
+        include:
+          - os: macos-14
+            appleclang-version: 15
+          - build-type: Debug
+            cmake-preset: conan-debug
+          - build-type: Release
+            cmake-preset: conan-release
+
+    name: AppleClang iOS ${{ matrix.appleclang-version }} ${{ matrix.arch }} - C++${{ matrix.cppstd }} - ${{ matrix.build-type }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install Xcode 15.4.0
+        if: matrix.appleclang-version == 15
+        uses: maxim-lobanov/setup-xcode@v1.6.0
+        with:
+          xcode-version: '15.4.0'
+
+      - name: Install system dependencies
+        run: |
+          brew update
+          brew install git python3 conan
+
+      - name: Setup Conan
+        run: |
+          conan --version
+          conan profile detect
+
+      - name: Install dependencies (iOS)
+        run: >
+          conan install . \
+            -s os=iOS \
+            -s os.version=15.0 \
+            -s compiler=apple-clang \
+            -s compiler.version=${{ matrix.appleclang-version }} \
+            -s compiler.cppstd=${{ matrix.cppstd }} \
+            -s arch=${{ matrix.arch }} \
+            -s build_type=${{ matrix.build-type }} \
+            --build=missing
+
+      - name: CMake Configure (iOS)
+        run: |
+          cmake --list-presets || true
+          cmake -G "Xcode" \
+            -DCMAKE_SYSTEM_NAME=iOS \
+            -DCMAKE_OSX_SYSROOT=iphoneos \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=15.0 \
+            -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }} \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} \
+            -B build-ios \
+            -S .
+
+      - name: Build (iOS)
+        run: |
+          cmake --build build-ios --config ${{ matrix.build-type }}

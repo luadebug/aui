@@ -27,12 +27,14 @@ class AUIRecipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {
         "shared": [True, False],
-        "fPIC": [True, False]
+        "fPIC": [True, False],
+        "ios-sign": [True, False]
     }
     default_options = {
         "shared": False,
         "fPIC": True,
         "fmt/*:header_only": True,
+        "ios-sign": False,
     }
 
     implements = ["auto_shared_fpic"]
@@ -70,7 +72,7 @@ class AUIRecipe(ConanFile):
         # Image
         self.requires("lunasvg/3.0.1")
         self.requires("libwebp/1.5.0")
-        #Views
+        # Views
         self.requires("freetype/2.13.3")
         self.requires("glew/2.2.0")
 
@@ -82,9 +84,15 @@ class AUIRecipe(ConanFile):
         deps = CMakeDeps(self)
         deps.generate()
         tc = CMakeToolchain(self)
+        tc.cache_variables["AUI_BUILD_EXAMPLES"] = False
         tc.cache_variables["AUI_INSTALL_RUNTIME_DEPENDENCIES"] = False
         tc.cache_variables["AUIB_NO_PRECOMPILED"] = True
         tc.cache_variables["AUIB_DISABLE"] = True
+        if self.settings.os == "iOS":
+            tc.cache_variables["AUI_BUILD_FOR"] = "ios"
+            tc.cache_variables["AUI_IOS_CODE_SIGNING_REQUIRED"] = self.options.ios_sign
+        elif self.settings.os == "Android":
+            tc.cache_variables["AUI_BUILD_FOR"] = "android"
         tc.generate()
 
     def build(self):
