@@ -425,6 +425,7 @@ jobs:
           compiler.libcxx=libc++
           compiler.cppstd=${{ matrix.cppstd }}
           build_type=${{ matrix.build-type }}
+          EOF
 
       - name: Install dependencies (iOS)
         run: >
