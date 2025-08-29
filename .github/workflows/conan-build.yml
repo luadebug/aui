@@ -204,10 +204,15 @@ jobs:
             libxcb-dri2-0-dev libxcb-present-dev libxcb-composite0-dev libxcb-ewmh-dev libxcb-res0-dev \
             libxcb-util-dev libxcb-util0-dev libdbus-1-dev libglib2.0-dev libfontconfig1-dev libpulse-dev libglew-dev
 
+      - name: Symlink gcc and g++
+        run: |
+          ln -sf /usr/bin/gcc-15 /usr/bin/gcc
+          ln -sf /usr/bin/g++-15 /usr/bin/g++
+
       - name: Set GCC as default compiler
         run: |
-          echo "CC=gcc-15" >> $GITHUB_ENV
-          echo "CXX=g++-15" >> $GITHUB_ENV
+          echo "CC=gcc" >> $GITHUB_ENV
+          echo "CXX=g++" >> $GITHUB_ENV
 
       - name: Install Conan
         run: |
