@@ -378,7 +378,7 @@ jobs:
         os: [macos-14]
         cppstd: ['20']
         build-type: [Debug, Release]
-        arch: ['x86_64', 'armv8']
+        arch: ['armv8']
         include:
           - os: macos-14
             appleclang-version: 15
