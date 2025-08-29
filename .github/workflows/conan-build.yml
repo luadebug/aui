@@ -409,19 +409,31 @@ jobs:
       - name: Setup Conan
         run: |
           conan --version
-          conan profile detect
+
+      - name: Create Conan profile
+        run: |
+          cat > ~/.conan2/profiles/ios <<EOF
+          include(default)
+
+          [settings]
+          os=iOS
+          os.version=15.0
+          os.sdk=iphoneos
+          arch=armv8
+          compiler=apple-clang
+          compiler.version=${{ matrix.appleclang-version }}
+          compiler.libcxx=libc++
+          compiler.cppstd=${{ matrix.cppstd }}
+          build_type=${{ matrix.build-type }}
 
       - name: Install dependencies (iOS)
         run: >
           conan install . \
-            -s os=iOS \
-            -s os.version=15.0 \
-            os.sdk=iphoneos \
+            --profile=ios \
             -s compiler=apple-clang \
             -s compiler.version=${{ matrix.appleclang-version }} \
             -s compiler.cppstd=${{ matrix.cppstd }} \
             -s arch=${{ matrix.arch }} \
-            -s build_type=${{ matrix.build-type }} \
             --build=missing
 
       - name: CMake Configure (iOS)
