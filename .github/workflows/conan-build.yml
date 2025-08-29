@@ -124,7 +124,10 @@ jobs:
         run: |
           echo "CC=clang-20" >> $GITHUB_ENV
           echo "CXX=clang++-20" >> $GITHUB_ENV
-
+      - name: Symlink clang and clang++
+        run: |
+          ln -sf /usr/bin/clang-20 /usr/bin/clang
+          ln -sf /usr/bin/clang++-20 /usr/bin/clang++
       - name: Install Conan
         run: |
           pipx ensurepath
