@@ -436,21 +436,16 @@ jobs:
 
       - name: CMake Configure (iOS)
         run: |
-          cmake -G "Xcode" \
-            -DAUI_BUILD_EXAMPLES=0 \
-            -DAUI_INSTALL_RUNTIME_DEPENDENCIES=0 \
-            -DAUIB_NO_PRECOMPILED=1 \
-            -DAUIB_DISABLE=1 \
-            -DAUI_IOS_CODE_SIGNING_REQUIRED=0 \
-            -DCMAKE_SYSTEM_NAME=iOS \
-            -DCMAKE_OSX_SYSROOT=iphoneos \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=15.0 \
-            -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }} \
-            -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} \
-            -B build-ios \
-            -S .
+          cmake --list-presets
+          cmake --preset ${{ matrix.cmake-preset }}
 
       - name: Build (iOS)
         run: |
-          cmake --build build-ios --config ${{ matrix.build-type }}
+          cmake --build --list-presets
+          cmake --build --preset ${{ matrix.cmake-preset }}
+
+      - name: Test (iOS)
+        run: |
+          ctest --list-presets
+          ctest --preset ${{ matrix.cmake-preset }}
 
