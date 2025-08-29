@@ -44,14 +44,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install MSVC v142 toolset
+      - name: Setup MSBuild (for v142)
         if: matrix.toolset == 142
-        uses: compnerd/gha-setup-vsdevenv@main
+        uses: microsoft/setup-msbuild@v2
         with:
-          host_arch: amd64
-          components: 'Microsoft.VisualStudio.Component.VC.v142.x86.x64;Microsoft.VisualStudio.Component.Windows10SDK.19041'
-          arch: amd64
+          vs-version: '[16.4,16.5)'
 
+      - name: Setup MSBuild (for v143)
+        if: matrix.toolset == 143
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[17.10,17.11)'
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
