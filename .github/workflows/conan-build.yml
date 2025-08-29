@@ -68,20 +68,10 @@ jobs:
       - name: Install Conan
         uses: turtlebrowser/get-conan@main
 
-      - name: Find and use choco-installed vcvarsall.bat
+      - name: Use choco-installed vcvarsall.bat
         shell: cmd
         run: |
-          set VCVARS_PATH=
-          rem Try C:/BuildTools/tools first
-          for /r "C:/BuildTools/tools" %%F in (vcvarsall.bat) do (
-            set "VCVARS_PATH=%%F"
-          )
-          rem Fallback: try C:/BuildTools if not found
-          if not defined VCVARS_PATH for /r "C:/BuildTools" %%F in (vcvarsall.bat) do (
-            set "VCVARS_PATH=%%F"
-          )
-          if not defined VCVARS_PATH exit /b 1
-          call "%VCVARS_PATH%" amd64
+          call "C:\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64
           conan --version
           conan profile detect
 
