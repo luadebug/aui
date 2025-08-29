@@ -48,7 +48,7 @@ jobs:
         if: matrix.toolset == 142
         uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
-          sdk: 10.0.19041.0
+          sdk: 10.0.10240.0
           toolset: 14.28
           arch: amd64
 
@@ -56,7 +56,7 @@ jobs:
         if: matrix.toolset == 143
         uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
-          sdk: 10.0.19041.0
+          sdk: 10.0.10240.0
           toolset: 14.35
           arch: amd64
 
