@@ -75,7 +75,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
           sdk: 10.0.26100.0
-          vsversion: 20222
+          vsversion: 2022
           arch: amd64
 
       - name: Install CMake
