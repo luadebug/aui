@@ -119,6 +119,11 @@ jobs:
           chmod +x llvm.sh
           sudo ./llvm.sh 20 all
 
+      - name: Set Clang as default compiler
+        run: |
+          echo "CC=clang-20" >> $GITHUB_ENV
+          echo "CXX=clang++-20" >> $GITHUB_ENV
+
       - name: Install Conan
         uses: turtlebrowser/get-conan@main
 
