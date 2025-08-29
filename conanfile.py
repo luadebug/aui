@@ -93,7 +93,6 @@ class AUIRecipe(ConanFile):
             tc.cache_variables["AUI_IOS_CODE_SIGNING_REQUIRED"] = self.options.ios_sign
         elif self.settings.os == "Android":
             tc.cache_variables["AUI_BUILD_FOR"] = "android"
-
         tc.generate()
 
     def build(self):
