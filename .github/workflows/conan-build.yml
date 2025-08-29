@@ -104,7 +104,7 @@ jobs:
       - name: Install system dependencies
         run: |
           apt-get update
-          apt-get install -y python3 python3-pip python3-wheel python3-setuptools wget lsb-release software-properties-common gnupg \
+          apt-get install -y python3 python3-pip python3-wheel python3-setuptools wget lsb-release software-properties-common gnupg pipx \
             libgl1-mesa-dev libglu1-mesa-dev \
             libx11-dev libx11-xcb-dev libfontenc-dev libice-dev libsm-dev libxau-dev libxaw7-dev \
             libxcomposite-dev libxcursor-dev libxdamage-dev libxext-dev libxfixes-dev libxi-dev libxinerama-dev \
@@ -128,8 +128,8 @@ jobs:
 
       - name: Install Conan
         run: |
-          apt-get update
-          apt-get install -y conan
+          pipx ensurepath
+          pipx install conan
 
       - name: Setup Conan
         run: |
@@ -188,7 +188,7 @@ jobs:
       - name: Install system dependencies
         run: |
           apt-get update
-          apt-get install -y python3 python3-pip python3-wheel python3-setuptools wget lsb-release software-properties-common gnupg \
+          apt-get install -y python3 python3-pip python3-wheel python3-setuptools wget lsb-release software-properties-common gnupg pipx \
             gcc-15 g++-15 \
             libgl1-mesa-dev libglu1-mesa-dev \
             libx11-dev libx11-xcb-dev libfontenc-dev libice-dev libsm-dev libxau-dev libxaw7-dev \
@@ -207,8 +207,8 @@ jobs:
 
       - name: Install Conan
         run: |
-          apt-get update
-          apt-get install -y conan
+          pipx ensurepath
+          pipx install conan
 
       - name: Setup Conan
         run: |
