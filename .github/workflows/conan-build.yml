@@ -49,7 +49,7 @@ jobs:
         uses: compnerd/gha-setup-vsdevenv@main
         with:
           host_arch: amd64
-          components: 'Microsoft.VisualStudio.Component.VC.Tools.x86.x64;Microsoft.VisualStudio.Component.VC.v142.x86.x64;Microsoft.VisualStudio.Component.Windows10SDK.19041'
+          components: 'Microsoft.VisualStudio.Component.VC.v142.x86.x64;Microsoft.VisualStudio.Component.Windows10SDK.19041'
           arch: amd64
 
 
