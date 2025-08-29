@@ -41,8 +41,6 @@ jobs:
 
     name: MSVC ${{ matrix.toolset }} - C++${{ matrix.cppstd }} - ${{ matrix.build-type }}
     runs-on: windows-2025
-    container:
-      image: mcr.microsoft.com/windows/servercore:ltsc2022
     steps:
       - uses: actions/checkout@v4
 
@@ -55,7 +53,6 @@ jobs:
             [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
             iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
           }
-          choco install -y git cmake
           choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.v142.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK.19041 --installPath C:\\Program Files\\Microsoft Visual Studio\\2019\\BuildTools"
 
       - name: Install VS 2022 Build Tools
@@ -67,7 +64,6 @@ jobs:
             [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
             iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
           }
-          choco install -y git cmake
           choco install -y visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.v143.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.26100 --installPath C:\\Program Files\\Microsoft Visual Studio\\2022\\BuildTools"
 
       - name: Detect vcvarsall for VS 2019 Build Tools
