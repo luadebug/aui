@@ -51,13 +51,6 @@ class AUIRecipe(ConanFile):
         return self.settings.os == "Windows" and self.settings.compiler == "clang" and \
                self.settings.compiler.get_safe("runtime")
 
-    def configure(self):
-        if self._is_clang_cl:
-            self.options["opus"].sse = False
-            self.options["opus"].sse2 = False
-            self.options["opus"].sse4_1 = False
-            self.options["opus"].avx = False
-
     def layout(self):
         cmake_layout(self)
 
@@ -103,7 +96,8 @@ class AUIRecipe(ConanFile):
         tc.cache_variables["AUIB_DISABLE"] = True
         if self.settings.os == "iOS":
             tc.cache_variables["AUI_IOS_CODE_SIGNING_REQUIRED"] = self.options.ios_sign
-
+        if self._is_clang_cl:
+            tc.extra_cxxflags.extend(["-mssse3", "-msse4.1"])
         tc.generate()
 
     def build(self):
