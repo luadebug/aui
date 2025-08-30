@@ -85,7 +85,7 @@ jobs:
       - name: Install CMake
         uses: lukka/get-cmake@latest
         with:
-          cmakeVersion: 4.1.0
+          cmakeVersion: 4.1.1
           ninjaVersion: latest
 
       - name: Install Conan
@@ -185,7 +185,7 @@ jobs:
       - name: Install CMake
         uses: lukka/get-cmake@latest
         with:
-          cmakeVersion: 4.1.0
+          cmakeVersion: 4.1.1
           ninjaVersion: latest
 
       - name: Install Conan
@@ -448,7 +448,7 @@ jobs:
       - name: Install CMake
         uses: lukka/get-cmake@latest
         with:
-          cmakeVersion: 4.1.0
+          cmakeVersion: 4.1.1
           ninjaVersion: latest
 
       - name: Install Xcode 15.4.0
@@ -517,7 +517,7 @@ jobs:
       - name: Install CMake
         uses: lukka/get-cmake@latest
         with:
-          cmakeVersion: 4.1.0
+          cmakeVersion: 4.1.1
           ninjaVersion: latest        
 
       - name: Install Xcode 15.4.0
