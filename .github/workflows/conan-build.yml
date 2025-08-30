@@ -84,6 +84,9 @@ jobs:
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: 4.1.0
+          ninjaVersion: latest
 
       - name: Install Conan
         uses: turtlebrowser/get-conan@main
@@ -176,12 +179,14 @@ jobs:
 
       - name: Set Clang as default compiler
         run: |
-          refreshenv
           echo "CC=clang-cl" >> $GITHUB_ENV
           echo "CXX=clang-cl" >> $GITHUB_ENV
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: 4.1.0
+          ninjaVersion: latest
 
       - name: Install Conan
         uses: turtlebrowser/get-conan@main
@@ -442,6 +447,9 @@ jobs:
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: 4.1.0
+          ninjaVersion: latest
 
       - name: Install Xcode 15.4.0
         if: matrix.appleclang-version == 15
@@ -508,6 +516,9 @@ jobs:
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: 4.1.0
+          ninjaVersion: latest        
 
       - name: Install Xcode 15.4.0
         if: matrix.appleclang-version == 15
