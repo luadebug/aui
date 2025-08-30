@@ -176,6 +176,11 @@ jobs:
           choco install -y visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Component.Windows10SDK.26100"
           choco install --version 20.1.8 llvm -y
 
+      - name: Set Clang as default compiler
+        run: |
+          echo "CC=clang-cl" >> $GITHUB_ENV
+          echo "CXX=clang-cl" >> $GITHUB_ENV
+
       - name: Detect vcvarsall for SDK 10.0.19041.0
         if: matrix.toolset == 142
         uses: ilammy/msvc-dev-cmd@v1.13.0
