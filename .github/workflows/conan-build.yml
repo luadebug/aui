@@ -186,7 +186,6 @@ jobs:
           echo "CC=clang-cl" >> $GITHUB_ENV
           echo "CXX=clang-cl" >> $GITHUB_ENV
 
-
       - name: Install CMake
         uses: lukka/get-cmake@latest
 
@@ -209,7 +208,7 @@ jobs:
           -s os=Windows
           -s compiler=clang
           -s compiler.runtime=dynamic
-          -s compiler.runtime_version=v143
+          -s compiler.runtime_version=v144
           -s compiler.version=20
           -s compiler.cppstd=${{ matrix.cppstd }}
           -s build_type=${{ matrix.build-type }}
