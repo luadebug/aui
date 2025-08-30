@@ -186,21 +186,6 @@ jobs:
           echo "CC=clang-cl" >> $GITHUB_ENV
           echo "CXX=clang-cl" >> $GITHUB_ENV
 
-      - name: Detect vcvarsall for SDK 10.0.19041.0
-        if: matrix.toolset == 142
-        uses: ilammy/msvc-dev-cmd@v1.13.0
-        with:
-          arch: amd64
-          sdk: 10.0.19041.0
-          toolset: 14.XX
-
-      - name: Detect vcvarsall for SDK 10.0.26100.0
-        if: matrix.toolset == 143
-        uses: ilammy/msvc-dev-cmd@v1.13.0
-        with:
-          arch: amd64
-          sdk: 10.0.26100.0
-          toolset: 14.XX
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
