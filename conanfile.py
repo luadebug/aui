@@ -46,6 +46,18 @@ class AUIRecipe(ConanFile):
     def _min_cppstd(self):
         return "20"
 
+    @property
+    def _is_clang_cl(self):
+        return self.settings.os == "Windows" and self.settings.compiler == "clang" and \
+               self.settings.compiler.get_safe("runtime")
+
+    def configure(self):
+        if self._is_clang_cl:
+            self.options["opus"].sse = False
+            self.options["opus"].sse2 = False
+            self.options["opus"].sse4_1 = False
+            self.options["opus"].avx = False
+
     def layout(self):
         cmake_layout(self)
 
