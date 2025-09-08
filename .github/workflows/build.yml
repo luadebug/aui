@@ -69,8 +69,11 @@ jobs:
          execute_install_scripts: true
          version: 4.0
 
+     - name: Setup ccache
+       uses: Chocobo1/setup-ccache-action@v1
+
      - name: Configure CMake 
-       run: cmake -GNinja -B ${{github.workspace}}/build -DAUI_BUILD_FOR=android -DAUI_BUILD_EXAMPLES=TRUE
+       run: cmake -GNinja -B ${{github.workspace}}/build -DAUI_BUILD_FOR=android -DAUI_BUILD_EXAMPLES=TRUE -DAUI_USE_CCACHE=ON
 
      - name: Build 
        run: cmake --build ${{github.workspace}}/build -t apps
@@ -95,9 +98,12 @@ jobs:
 
      - name: Install macos dependencies
        run: brew install ninja 
-     
+
+     - name: Setup ccache
+       uses: Chocobo1/setup-ccache-action@v1
+
      - name: Configure CMake 
-       run: cmake -GNinja -B ${{github.workspace}}/build -DAUI_BUILD_FOR=ios -DAUI_BUILD_EXAMPLES=TRUE -DAUI_IOS_CODE_SIGNING_REQUIRED=FALSE
+       run: cmake -GNinja -B ${{github.workspace}}/build -DAUI_BUILD_FOR=ios -DAUI_BUILD_EXAMPLES=TRUE -DAUI_IOS_CODE_SIGNING_REQUIRED=FALSE -DAUI_USE_CCACHE=ON
 
      - name: Build app 
        run: cmake --build ${{github.workspace}}/build -t apps
@@ -144,8 +150,11 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install ninja
 
+      - name: Setup ccache
+        uses: Chocobo1/setup-ccache-action@v1
+
       - name: Configure CMake
-        run: cmake -G "${{ matrix.generator }}" -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.debug_or_release}} -DBUILD_SHARED_LIBS=${{ matrix.shared_or_static == 'shared' && 'ON' || 'OFF' }} ${{matrix.additional_cmake_flags}} -DAUIB_PRODUCED_PACKAGES_SELF_SUFFICIENT=ON -DAUI_BUILD_AUDIO=OFF
+        run: cmake -G "${{ matrix.generator }}" -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.debug_or_release}} -DBUILD_SHARED_LIBS=${{ matrix.shared_or_static == 'shared' && 'ON' || 'OFF' }} ${{matrix.additional_cmake_flags}} -DAUIB_PRODUCED_PACKAGES_SELF_SUFFICIENT=ON -DAUI_BUILD_AUDIO=OFF -DAUI_USE_CCACHE=ON
 
       - name: Build project
         run: cmake --build ${{github.workspace}}/build --config ${{matrix.debug_or_release}}
@@ -253,10 +262,20 @@ jobs:
           echo "CC=clang-20" >> $GITHUB_ENV
           echo "CXX=clang++-20" >> $GITHUB_ENV
 
+      - name: Setup ccache
+        if: runner.os == 'Windows'
+        uses: Chocobo1/setup-ccache-action@v1
+        with:
+          windows_compile_environment: msvc
+
+      - name: Setup ccache
+        if: runner.os != 'Windows'
+        uses: Chocobo1/setup-ccache-action@v1
+
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-        run: cmake -G "${{ matrix.generator }}" -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.debug_or_release}} -DBUILD_SHARED_LIBS=${{ matrix.shared_or_static == 'shared' && 'ON' || 'OFF' }} ${{matrix.additional_cmake_flags}} -DAUIB_PRODUCED_PACKAGES_SELF_SUFFICIENT=ON -DAUI_BUILD_AUDIO=OFF
+        run: cmake -G "${{ matrix.generator }}" -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.debug_or_release}} -DBUILD_SHARED_LIBS=${{ matrix.shared_or_static == 'shared' && 'ON' || 'OFF' }} ${{matrix.additional_cmake_flags}} -DAUIB_PRODUCED_PACKAGES_SELF_SUFFICIENT=ON -DAUI_BUILD_AUDIO=OFF -DAUI_USE_CCACHE=ON
 
       - name: Build project
         # Build your program with the given configuration
@@ -289,7 +308,7 @@ jobs:
 # [cpack]
 
       - name: Enable examples
-        run: cmake -B ${{github.workspace}}/build -DAUI_BUILD_EXAMPLES=TRUE -DAUI_BUILD_AUDIO=ON
+        run: cmake -B ${{github.workspace}}/build -DAUI_BUILD_EXAMPLES=TRUE -DAUI_BUILD_AUDIO=ON -DAUI_USE_CCACHE=ON
 
       - name: Build examples
         run: cmake --build ${{github.workspace}}/build --config ${{matrix.debug_or_release}}

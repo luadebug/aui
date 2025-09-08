@@ -78,10 +78,13 @@ jobs:
           execute_install_scripts: true
           version: 4.0
 
+      - name: Setup ccache
+        uses: Chocobo1/setup-ccache-action@v1
+
       - name: Configure CMake asan
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-        run: cmake -GNinja -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=OFF -DAUI_ENABLE_DEATH_TESTS=FALSE
+        run: cmake -GNinja -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=OFF -DAUI_ENABLE_DEATH_TESTS=FALSE -DAUI_USE_CCACHE=ON
 
       - name: Build project asan
         # Build your program with the given configuration
